@@ -40,7 +40,7 @@ authRouter.post("/register", (req, res) => {
           // generate token when successful register
           const token = generateToken(user);
           res.status(201).json({
-            message: `Registration success! Welcome ${user.firstname}! Your username is ${user.username}.`,
+            message: `Welcome ${user.firstname}! Your username is ${user.username}.`,
             user,
             token
           });

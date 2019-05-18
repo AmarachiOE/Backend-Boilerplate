@@ -3,42 +3,43 @@
 API for Coordinator storytelling (Bountiful Children's Foundation). A web application for sharing success stories.
 
 - [Users](#users)
-    - [Register a new user](#register-a-new-user.)
-	- [Log a user in](#log-a-user-in.)
-	- [Get a user by id](#get-a-user-with-the-id.)
-	- [Get all users](#get-all-users)
+    - [Register a new user](#register-a-new-user)
+	- [Log a user in](#log-a-user-in)
+	- [Get a user by id (with user stories)](#get-a-user-by-ID-(with-user's-stories))
+	<!-- - [Get all users](#get-all-users) -->
     
     <!-- - [Update user info.](#update-user-info.) -->
 
-- [Comments](#comments)
-	- [Create a comment.](#create-a-comment.)
-	- [Get all comments for a post.](#get-all-comments-for-a-post.)
-	- [Update a comment.](#update-a-comment.)
+- [Stories](#stories)
+	- [Create a story](#create-a-story)
+	- [Get all stories](#get-all-stories)
+	- [Update a story](#update-a-story)
+    - [Delete a story](#delete-a-story)
 	
-- [Posts](#posts)
-	- [Create a post](#create-a-post)
-	- [Gets post by id](#gets-post-by-id)
-	- [Gets posts ordered by updated_at](#gets-posts-ordered-by-updated_at)
-	- [Update a post](#update-a-post)
+
 	
 
 # Users
 
-## Register a new user.
+## Register a new user
 
 
 
 	POST /users/register
 
 
-### Parameters
+### Parameters (Needed fields)
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| user_name			| String			|  <p>Users username</p>							|
-| password			| String			|  <p>Users password</p>							|
-| created_at			| String			| **optional** <p>Timestamp the user was created</p>							|
-| updated_at			| String			| **optional** <p>Timestamp the user was last updated.</p>							|
+| firstname         | String    | <p>User's first name</p> |
+| lastname          | String    | <p>User's last name</p> |
+| country           | String    | <p>User's country</p> |
+| title             | String    | <p>User's title at organization</p> |
+| email             | String    | <p>User's email address</p> |
+| username			| String	|  <p>User's username</p>	|
+| password			| String	|  <p>User's password</p>	|
+
 
 ### Examples
 
@@ -46,8 +47,13 @@ Register example:
 
 ```
 axios.post('/users/register', {
-    user_name: "Constance36",
-    password: "password"
+    "firstname": "John",
+	"lastname": "Doe",
+	"country": "Haiti",
+	"title": "Coordinator",
+	"email": "john@company.com",
+	"username": "johndoe",
+	"password": "johndoe"
 });
 ```
 
@@ -58,27 +64,37 @@ Register Success
 ```
 
 {
-       "id": 1,
-       "created_at": "2019-04-13 09:01:42",
-       "updated_at": "2019-04-13 18:54:22",
-       "user_name": "Constance36"
-   }
+  "message": "Registration success! Welcome John! Your username is johndoe.",
+  "user": {
+    "id": 2,
+    "firstname": "John",
+    "lastname": "Doe",
+    "country": "Haiti",
+    "title": "Coordinator",
+    "email": "john@company.com",
+    "username": "johndoe",
+    "password": "$2a$14$JZvRosKPEfApwHu4Yn6ZMenzUY1Jd/uqHL63lgT238sdYjbXCE7bC"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoyLCJ1c2VybmFtZSI6ImpvaG5kb2UiLCJpYXQiOjE1NTgxMzMwNTcsImV4cCI6MTU1ODg1MzA1N30.4vhcYrzYKPwcK7K7FsjfeS08ymKv72RWcSq46U_6ql8"
+}
+
 ```
 ### Error Response
 
 Error Example:
 
 ```
+
 ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
+    "error": "Some Error Message"
 }
+
 ```
 
 
 
-## Log a user in.
+## Log a user in
 
 
 
@@ -89,18 +105,20 @@ ERROR XXX
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| user_name			| String			|  <p>Users username</p>							|
-| password			| String			|  <p>Users password</p>							|
+| username	| String    |  <p>User's username</p>	|
+| password	| String	|  <p>User's password</p>	|
 
 ### Examples
 
 Login example:
 
 ```
+
 axios.post('/users/login', {
-    user_name: "Constance36",
-    password: "password"
+    username: "johndoe",
+    password: "johndoe"
 });
+
 ```
 
 ### Success Response
@@ -109,28 +127,39 @@ Login Success
 
 ```
 
- {
-    "message": "Welcome jeremiah!",
-    "status": 200,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJjcmVhdGVkX2F0IjoiMjAxOS0wNC0xMyAyMzowMDoxNSIsInVwZGF0ZWRfYXQiOiIyMDE5LTA0LTEzIDIzOjAwOjE1IiwidXNlcl9uYW1lIjoiamVyZW1pYWgiLCJpYXQiOjE1NTUxOTY0MzAsImV4cCI6MTU1NTI4MjgzMH0.3dY5x5o-OTRPLJwCc2mYSMzjsfdXomtHWvrc14QUvQ4"
+{
+  "message": "Welcome johndoe!",
+  "user": {
+    "id": 2,
+    "firstname": "John",
+    "lastname": "Doe",
+    "country": "Haiti",
+    "title": "Coordinator",
+    "email": "john@company.com",
+    "username": "johndoe",
+    "password": "$2a$14$JZvRosKPEfApwHu4Yn6ZMenzUY1Jd/uqHL63lgT238sdYjbXCE7bC"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoyLCJ1c2VybmFtZSI6ImpvaG5kb2UiLCJpYXQiOjE1NTgxNTA0NDMsImV4cCI6MTU1ODg3MDQ0M30.6ugZPJbJIdi6unMicD3q7iEOn5cvgJMd3C8vbwA6QPg"
 }
+
 ```
 ### Error Response
 
 Error Example:
 
 ```
+
 ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
+    "error": "Some Error Message"
 }
+
 ```
 
 
 
 
-## Get a user with the id.
+## Get a user by ID (with user's stories)
 
 
 
@@ -140,27 +169,28 @@ ERROR XXX
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>User auth token.</p>							|
+| authorization	    | String	|  <p>User's auth token</p>							|
 
 ### Parameters
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| id			| Number			|  <p>User id.</p>							|
+| id	| Number			|  <p>User's id</p>							|
 
 ### Examples
 
 Request example:
 
-```
-const request = axios.create({
+<!-- const request = axios.create({
     baseURL: 'http://localhost:3200',
         timeout: 1000,
         headers: {
             authorization: "userTokenGoesHere"
         }
-});
-request.get('/users/11');
+}); -->
+
+```
+axios.get('/user/2');
 ```
 
 ### Success Response
@@ -168,71 +198,42 @@ request.get('/users/11');
 User Data
 
 ```
-
 {
-       "id": 1,
-       "created_at": "2019-04-13 09:01:42",
-       "updated_at": "2019-04-13 18:54:22",
-       "user_name": "Constance36"
-   }
-```
-### Error Response
-
-Error Example:
-
-```
-ERROR XXX
-{
-    "status": xxx,
-    "message": "Some Error Message"
-}
-```
-## Get all users
-
-
-
-	GET /users
-
-### Headers
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>User auth token.</p>							|
-
-### Examples
-
-Request example:
-
-```
-const request = axios.create({
-    baseURL: 'http://localhost:3200',
-        timeout: 1000,
-        headers: {
-            authorization: "userTokenGoesHere"
-        }
-});
-request.get('/users');
-```
-
-### Success Response
-
-Users Data
-
-```
-[
- {
-        "id": 1,
-        "created_at": "2019-04-13 09:01:42",
-        "updated_at": "2019-04-13 18:54:22",
-        "user_name": "Constance36"
+  "id": 2,
+  "firstname": "John",
+  "lastname": "Doe",
+  "country": "Haiti",
+  "title": "Coordinator",
+  "email": "john@company.com",
+  "username": "johndoe",
+  "password": "$2a$14$JZvRosKPEfApwHu4Yn6ZMenzUY1Jd/uqHL63lgT238sdYjbXCE7bC",
+  "stories": [
+    {
+      "id": 4,
+      "title": "A Life in Haiti",
+      "country": "Haiti",
+      "description": "A description goes here",
+      "fullStory": "Full story goes here...",
+      "date": "May 17, 2019"
     },
- {
-        "id": 2,
-        "created_at": "2019-04-13 03:36:08",
-        "updated_at": "2019-04-13 18:54:22",
-        "user_name": "Marcellus_Kautzer24"
-    },...
- ]
+    {
+      "id": 5,
+      "title": "A Moment in Mongolia",
+      "country": "Mongolia",
+      "description": "A description goes here",
+      "fullStory": "Full story goes here...",
+      "date": "May 17, 2019"
+    },
+    {
+      "id": 6,
+      "title": "A Evening in Paraguay",
+      "country": "Paraguay",
+      "description": "A description goes here",
+      "fullStory": "Full story goes here...",
+      "date": "May 17, 2019"
+    }
+  ]
+}
 ```
 ### Error Response
 
@@ -241,69 +242,63 @@ Error Example:
 ```
 ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
+    "error": "Some Error Message"
 }
 ```
 
+# Stories
 
+## Create a story
 
-# Comments
-
-## Create a comment.
-
-
-
-	POST /comments
+	POST /stories
 
 ### Headers
 
-| Name    | Type      | Description                          |
+| Name    | Type      | Description |
 |---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>The token given to the user at login.</p>							|
+| authorization	   | String	|  <p>The token given to the user at registration or login</p>|
 
 ### Parameters
 
-| Name    | Type      | Description                          |
+| Name    | Type      | Description  |
 |---------|-----------|--------------------------------------|
-| comment			| Text			|  <p>Comment to add to post.</p>							|
-| post_id			| Number			|  <p>Id of the post to add the comment to.</p>							|
-| created_at			| String			| **optional** <p>Id of the post to add the comment to.</p>							|
-| updated_at			| String			| **optional** <p>Id of the post to add the comment to.</p>							|
-| likes			| Number			| **optional** <p>Number of likes the comment has.</p>							|
+| user_id	    | Number	|  <p>ID of the user</p>|
+| title	        | String    |  <p>Title of story</p>|
+| country       | String	|  <p>Country where story took place</p>|
+| description	| String    | <p>Preview of story</p>|
+| fullStory 	| String	| <p>Full story</p>	|
+| date          | String    | <p>Date story took place</p>|
 
 ### Examples
 
-Post comment example:
+Post story example:
 
 ```
-const instance = axios.create({
-        baseURL: 'http://localhost:3200',
-        timeout: 1000,
-        headers: {
-            authorization: "userTokenGoesHere"
-        }
-    });
  
- instance.post("/comments", {
-    comment: "Long string",
-    post_id: 45,
- });
+ axios.post("/stories", {
+    "user_id": 1,
+    "title": "The Grand Zimbabwe",
+    "country": "Zimbabwe",
+    "description": "A cool story that happened in Zimbabwe",
+    "fullStory": "Full story goes here",
+    "date": "May 17, 2019"
+});
+
 ```
 
 ### Success Response
 
-Create post success.
+Create story success.
 
 ```
 {
-    "id": 5876,
-    "created_at": "2019-04-15 01:41:41",
-    "updated_at": "2019-04-15 01:41:41",
-    "comment": "Some text here",
-    "likes": 0,
-    "user_id": 101,
-    "post_id": 45
+    "id": 10,
+    "user_id": 2,
+    "title": "The Grand Zimbabwe",
+    "country": "Zimbabwe",
+    "description": "A cool story that happened in Zimbabwe",
+    "fullStory": "Full story goes here",
+    "date": "May 17, 2019"
 }
 ```
 ### Error Response
@@ -313,21 +308,15 @@ Error Example:
 ```
 ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
+    "error": "Some Error Message"
 }
 ```
-## Get all comments for a post.
+## Get all stories
 
 
 
-	GET /comments/post_id/:id
+	GET /stories
 
-### Headers
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>The token given to the user at login.</p>							|
 
 ### Parameters
 
@@ -339,16 +328,10 @@ ERROR XXX
 
 Get comments example:
 
-```
-const instance = axios.create({
-        baseURL: 'http://localhost:3200',
-        timeout: 1000,
-        headers: {
-            authorization: "userTokenGoesHere"
-        }
-    });
- 
- instance.get("/comments/post_id/45");
+``` 
+
+ axios.get("/stories");
+
 ```
 
 ### Success Response
@@ -357,26 +340,42 @@ Posts Data
 
 ```
 [
- {
-        "id": 273,
-        "created_at": "2019-04-14 18:00:08",
-        "updated_at": "2019-04-15 01:38:18",
-        "comment": "Autem doloremque est quia sed sequi cumque dolor quaerat recusandae. Autem quia quasi qui in quisquam occaecati exercitationem. Dignissimos ea placeat iusto cumque dolores numquam quidem. Quis quia veritatis odit sed.",
-        "likes": 0,
-        "user_id": 30,
-        "post_id": 45,
-        "user_name": "Ellen91"
-    },
- {
-        "id": 274,
-        "created_at": "2019-04-14 18:27:45",
-        "updated_at": "2019-04-15 01:38:18",
-        "comment": "Labore voluptatibus sed asperiores mollitia adipisci doloremque quo. Deleniti itaque voluptatem asperiores rerum sit nemo vitae consequuntur.",
-        "likes": 0,
-        "user_id": 95,
-        "post_id": 45,
-        "user_name": "Alvena44"
-    }....
+  {
+    "id": 1,
+    "user_id": 1,
+    "title": "A Moment in Peru",
+    "country": "Peru",
+    "description": "A cool story that happened in Peru",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "title": "A Tour in Ghana",
+    "country": "Ghana",
+    "description": "A cool story that happened in Ghana",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },
+  {
+    "id": 3,
+    "user_id": 1,
+    "title": "A Day in Cambodia",
+    "country": "Cambodia",
+    "description": "A cool story that happened in Cambodia",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },
+  {
+    "id": 4,
+    "user_id": 2,
+    "title": "A Life in Haiti",
+    "country": "Haiti",
+    "description": "A cool story that happened in Haiti",
+    "fullStory": "Full story goes here.",
+    "date": "May 17, 2019"
+  },...
  ]
 ```
 ### Error Response
@@ -386,216 +385,56 @@ Error Example:
 ```
 ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
+    "error": "Some Error Message"
 }
 ```
-## Update a comment.
+## Update a story
 
 
 
-	PUT /comments
+	PUT /stories/:id
 
 ### Headers
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>The token given to the user at login.</p>							|
+| authorization	| String	|  <p>The token given to the user at registration or login</p>|
 
 ### Parameters
 
-| Name    | Type      | Description                          |
+| Name    | Type      | Description  |
 |---------|-----------|--------------------------------------|
-| id			| Number			|  <p>Post id.</p>							|
-| post_id			| Number			| **optional** <p>Id of the post to add the comment to.</p>							|
-| comment			| Text			| **optional** <p>Comment to add to post.</p>							|
-| created_at			| String			| **optional** <p>Id of the post to add the comment to.</p>							|
-| updated_at			| String			| **optional** <p>Id of the post to add the comment to.</p>							|
-| likes			| Number			| **optional** <p>Number of likes the comment has.</p>							|
+| user_id	    | Number	|  <p>ID of the user</p>|
+| title	        | String    |  <p>Title of story</p>|
+| country       | String	|  <p>Country where story took place</p>|
+| description	| String    | <p>Preview of story</p>|
+| fullStory 	| String	| <p>Full story</p>	|
+| date          | String    | <p>Date story took place</p>|
 
 ### Examples
 
-Post comment example:
-
-```
-const instance = axios.create({
-        baseURL: 'http://localhost:3200',
-        timeout: 1000,
-        headers: {
-            authorization: "userTokenGoesHere"
-        }
-    });
- 
- instance.put("/comments", {
-    id: 273,
-    likes: 20
- });
-```
-
-### Success Response
-
-Create post success.
-
-```
-{
-    "id": 273,
-    "created_at": "2019-04-14 18:00:08",
-    "updated_at": "2019-04-15 01:38:18",
-    "comment": "Autem doloremque est quia sed sequi cumque dolor quaerat recusandae. Autem quia quasi qui in quisquam occaecati exercitationem. Dignissimos ea placeat iusto cumque dolores numquam quidem. Quis quia veritatis odit sed.",
-    "likes": 20,
-    "user_id": 101,
-    "post_id": 45
-}
-```
-### Error Response
-
-Error Example:
-
-```
-ERROR XXX
-{
-    "status": xxx,
-    "message": "Some Error Message"
-}
-```
-# Posts
-
-## Create a post
-
-
-
-	POST /posts/
-
-### Headers
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>The token given to the user at login.</p>							|
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| title			| String			|  <p>The title of the post.</p>							|
-| description			| String			|  <p>Short description of the post.</p>							|
-| story			| Text			|  <p>The story of the post.</p>							|
-| img_url			| String			|  <p>The picture url.</p>							|
-| likes			| Number			| **optional** <p>Number of times the post has been liked.</p>							|
-| user_profile_img			| String			| **optional** <p>The users profile image url.</p>							|
-| created_at			| String			| **optional** <p>Time and date the post was created.</p>							|
-| updated_at			| String			| **optional** <p>Time and date the post was updated.</p>							|
-
-### Examples
-
-Create post example:
-
-```
-const instance = axios.create({
-        baseURL: 'http://localhost:3200',
-        timeout: 1000,
-        headers: {
-            authorization: "userTokenGoesHere"
-        }
-    });
- 
- instance.post("/posts", {
-    title: "Some Title",
-    description: "Some description",
-    story: "Lots of text here.",
-    img_url: "http://SomeUrl.something",
- });
-```
-
-### Success Response
-
-Posts Data
+Update story example:
 
 ```
 
- {
-    "id": 979,
-    "created_at": "2019-04-15 01:35:35",
-    "updated_at": "2019-04-15 01:35:35",
-    "user_id": 101,
-    "title": "Some title",
-    "description": "Some description",
-    "story": "la la la lahahahah",
-    "likes": 0,
-    "img_url": "http://someUrl.com",
-    "user_profile_img": null,
-    "user_name": "jeremiah"
-}
-```
-### Error Response
-
-Error Example:
-
-```
-ERROR XXX
-{
-    "status": xxx,
-    "message": "Some Error Message"
-}
-```
-## Gets post by id
-
-
-
-	GET /posts/id/:id
-
-### Headers
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>The token given to the user at login.</p>							|
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| id			| Number			|  <p>The id of the post.</p>							|
-
-### Examples
-
-Request example:
-
-```
-axios.post('/posts/id/5', {
-    headers: {
-        authorization: "token"
-    }
+ axios.put("/stories/:id", {
+    "user_id": 1,
+    "title": "The Extra Grand Zimbabwe",
+    "country": "Zimbabwe",
+    "description": "A cool story that happened in Zimbabwe",
+    "fullStory": "Full story goes here",
+    "date": "May 17, 2019"
 });
+
 ```
 
 ### Success Response
 
-Posts Data
+Update story success.
 
 ```
-
- {
-    "id": 45,
-    "created_at": "2019-04-14 16:29:02",
-    "updated_at": "2019-04-15 01:19:25",
-    "user_id": 52,
-    "title": "body of water between mountains",
-    "description": "Nostrum sapiente ipsum hic nemo sit exercitationem architecto iure animi.",
-    "story": "Sint porro quis. Perferendis alias et tenetur. Amet nobis totam doloribus dolorem magni velit reiciendis. Fuga rerum accusamus. Et pariatur quae ut eligendi provident et placeat odio qui.\n \rDicta harum ut iure temporibus. Explicabo ea alias cum impedit esse praesentium sed enim blanditiis. Quas nisi voluptatibus dolores ipsum dignissimos. Est asperiores modi tempora. Sint quo officiis mollitia maiores totam dolorem autem ipsam deleniti. Et qui at vel animi minima.\n \rUt voluptatem doloremque voluptatem unde voluptas aut necessitatibus exercitationem tempora. Quam officiis corrupti qui atque quidem sint perspiciatis sed. Molestiae est modi rem dicta non. Voluptas sint consequuntur consequuntur autem. Enim est tempora esse error ut quas deserunt explicabo. Ut accusantium est optio in et dolorem vel cupiditate.",
-    "likes": 0,
-    "img_url": "https://images.unsplash.com/photo-1445217143695-467124038776?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjU2NzU3fQ",
-    "user_profile_img": null,
-    "user_name": "Norris.Halvorson81",
-    "comments": [
-        {
-            "id": 268,
-            "created_at": "2019-04-14 00:50:05",
-            "updated_at": "2019-04-15 01:19:26",
-            "comment": "Dolor rerum eaque dolore praesentium non dolores. Aspernatur sed sit dolorem cumque omnis exercitationem iure quibusdam eum. Animi enim assumenda porro et aut enim non. Consequatur aut quisquam repellat.",
-            "user_id": 74,
-            "post_id": 45,
-            "user_name": "Ocie_Gusikowski"
-        }...
-    ]
+{
+  "message": "1 story updated!"
 }
 ```
 ### Error Response
@@ -605,135 +444,47 @@ Error Example:
 ```
 ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
+    "error": "Some Error Message"
 }
 ```
-## Gets posts ordered by updated_at
+
+
+## Delete a story
 
 
 
-	GET /posts/:offset
+	DELETE /stories/:id
 
 ### Headers
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>The token given to the user at login.</p>							|
+| authorization	| String	|  <p>The token given to the user at registration or login</p>|
 
 ### Parameters
 
-| Name    | Type      | Description                          |
+| Name    | Type      | Description  |
 |---------|-----------|--------------------------------------|
-| offset			| Number			|  <p>The number to start the posts at.</p>							|
+| id	    | Number	|  <p>ID of the story</p>|
+
 
 ### Examples
 
-Request example:
+Delete story example:
 
 ```
-axios.post('/posts/20', {
-    headers: {
-        authorization: "token"
-    }
-});
+
+ axios.delete("/stories/:id");
+
 ```
 
 ### Success Response
 
-Posts Data
+Delete story success
 
 ```
-[
- {
-        "id": 1,
-        "created_at": "2019-04-14 19:01:18",
-        "updated_at": "2019-04-15 01:19:25",
-        "user_id": 38,
-        "title": "mountain peak during golden hour",
-        "description": "Et molestias recusandae consectetur soluta.",
-        "story": "Ut et quia nam eum sed ratione. Reprehenderit vel quia dolores rem harum voluptas praesentium. Veritatis distinctio et ut voluptas ipsa qui. Aut quo perspiciatis.\n \rNobis qui quaerat enim. Reprehenderit recusandae alias blanditiis doloribus quisquam nemo delectus. Et et provident. Mollitia rerum et sint error consequatur ducimus beatae est numquam. Vel culpa nemo accusantium laborum neque sunt. Quod quo excepturi aut sapiente debitis sed quae repellendus sunt.\n \rTempora est exercitationem similique repellat at rerum nihil sequi. Et voluptas esse tenetur quis porro id reiciendis. Voluptas neque culpa. Dignissimos enim ea accusantium iusto reiciendis. Dicta consequuntur ipsam rerum consequatur explicabo.",
-        "likes": 0,
-        "img_url": "https://images.unsplash.com/photo-1528920304568-7aa06b3dda8b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjU2NzU3fQ",
-        "user_profile_img": null,
-        "user_name": "Jake.Gorczany95"
-    }...
- ]
-```
-### Error Response
-
-Error Example:
-
-```
-ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
-}
-```
-## Update a post
-
-
-
-	PUT /posts/
-
-### Headers
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| authorization			| String			|  <p>The token given to the user at login.</p>							|
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| id			| Number			|  <p>Post id.</p>							|
-| title			| String			| **optional** <p>The title of the post.</p>							|
-| description			| String			| **optional** <p>Short description of the post.</p>							|
-| story			| Text			| **optional** <p>The story of the post.</p>							|
-| img_url			| String			| **optional** <p>The picture url.</p>							|
-| likes			| Number			| **optional** <p>Number of times the post has been liked.</p>							|
-| user_profile_img			| String			| **optional** <p>The users profile image url.</p>							|
-| created_at			| String			| **optional** <p>Time and date the post was created.</p>							|
-| updated_at			| String			| **optional** <p>Time and date the post was updated.</p>							|
-
-### Examples
-
-Update post example:
-
-```
-const instance = axios.create({
-        baseURL: 'http://localhost:3200',
-        timeout: 1000,
-        headers: {
-            authorization: "userTokenGoesHere"
-        }
-    });
- 
- instance.put("/posts", {
-    id: 979,
-    likes: 25
- });
-```
-
-### Success Response
-
-Update post success
-
-```
-
- {
-    "id": 979,
-    "created_at": "2019-04-15 02:09:55",
-    "updated_at": "2019-04-15 02:09:55",
-    "user_id": 101,
-    "title": "Some title",
-    "description": "ffnkdl;ahijfkdls;a",
-    "story": "fjdka;fjdinaklf;dfids;",
-    "likes": 25,
-    "img_url": "https://www.someurl.com",
-    "user_profile_img": null,
-    "user_name": "jeremiah"
+  "message": "1 story deleted!"
 }
 ```
 ### Error Response
@@ -743,7 +494,6 @@ Error Example:
 ```
 ERROR XXX
 {
-    "status": xxx,
-    "message": "Some Error Message"
+    "error": "Some Error Message"
 }
 ```

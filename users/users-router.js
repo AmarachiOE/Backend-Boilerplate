@@ -40,7 +40,7 @@ usersRouter.post("/register", (req, res) => {
         // generate token when successful register
         const token = generateToken(user);
         res.status(201).json({
-          message: `Registration success! Welcome ${user.firstname}! Your username is ${user.username}.`,
+          message: `Welcome ${user.firstname}! Your username is ${user.username}.`,
           user,
           token
         });
@@ -64,7 +64,7 @@ usersRouter.post("/login", (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({
-          message: `Login success! Welcome ${user.username}!`,
+          message: `Welcome ${user.username}!`,
           user,
           token
         }); 
