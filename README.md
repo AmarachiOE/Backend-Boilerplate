@@ -1,2 +1,2 @@
 # Backend-Boilerplate
-practicing coding endpoints for backend build week
+practicing coding endpoints and deployment for backend build week
