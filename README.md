@@ -32,13 +32,13 @@ API for Coordinator storytelling (Bountiful Children's Foundation). A web applic
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| firstname         | String    | <p>User's first name</p> |
-| lastname          | String    | <p>User's last name</p> |
-| country           | String    | <p>User's country</p> |
-| title             | String    | <p>User's title at organization</p> |
-| email             | String    | <p>User's email address</p> |
-| username			| String	|  <p>User's username</p>	|
-| password			| String	|  <p>User's password</p>	|
+| firstname         | String    | User's first name |
+| lastname          | String    | User's last name |
+| country           | String    | User's country |
+| title             | String    | User's title at organization |
+| email             | String    | User's email address |
+| username			| String	| User's username |
+| password			| String	| User's password |
 
 
 ### Examples
@@ -105,8 +105,8 @@ ERROR XXX
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| username	| String    |  <p>User's username</p>	|
-| password	| String	|  <p>User's password</p>	|
+| username	| String    |  User's username	|
+| password	| String	|  User's password	|
 
 ### Examples
 
@@ -169,13 +169,13 @@ ERROR XXX
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| authorization	    | String	|  <p>User's auth token</p>							|
+| authorization	    | String	|  User's auth token							|
 
 ### Parameters
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| id	| Number			|  <p>User's id</p>							|
+| id	| Number			|  User's id							|
 
 ### Examples
 
@@ -256,18 +256,18 @@ ERROR XXX
 
 | Name    | Type      | Description |
 |---------|-----------|--------------------------------------|
-| authorization	   | String	|  <p>The token given to the user at registration or login</p>|
+| authorization	   | String	|  The token given to the user at registration or login|
 
 ### Parameters
 
 | Name    | Type      | Description  |
 |---------|-----------|--------------------------------------|
-| user_id	    | Number	|  <p>ID of the user</p>|
-| title	        | String    |  <p>Title of story</p>|
-| country       | String	|  <p>Country where story took place</p>|
-| description	| String    | <p>Preview of story</p>|
-| fullStory 	| String	| <p>Full story</p>	|
-| date          | String    | <p>Date story took place</p>|
+| user_id	    | Number	|  ID of the user|
+| title	        | String    |  Title of story|
+| country       | String	|  Country where story took place|
+| description	| String    | Preview of story|
+| fullStory 	| String	| Full story	|
+| date          | String    | Date story took place|
 
 ### Examples
 
@@ -322,7 +322,7 @@ ERROR XXX
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| id			| Number			|  <p>The id of the post you are collecting comments for.</p>							|
+| id			| Number			|  The id of the post you are collecting comments for.							|
 
 ### Examples
 
@@ -398,18 +398,18 @@ ERROR XXX
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| authorization	| String	|  <p>The token given to the user at registration or login</p>|
+| authorization	| String	|  The token given to the user at registration or login|
 
 ### Parameters
 
 | Name    | Type      | Description  |
 |---------|-----------|--------------------------------------|
-| user_id	    | Number	|  <p>ID of the user</p>|
-| title	        | String    |  <p>Title of story</p>|
-| country       | String	|  <p>Country where story took place</p>|
-| description	| String    | <p>Preview of story</p>|
-| fullStory 	| String	| <p>Full story</p>	|
-| date          | String    | <p>Date story took place</p>|
+| user_id	    | Number	|  ID of the user|
+| title	        | String    |  Title of story|
+| country       | String	|  Country where story took place|
+| description	| String    | Preview of story|
+| fullStory 	| String	| Full story	|
+| date          | String    | Date story took place|
 
 ### Examples
 
@@ -459,13 +459,13 @@ ERROR XXX
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| authorization	| String	|  <p>The token given to the user at registration or login</p>|
+| authorization	| String	|  The token given to the user at registration or login|
 
 ### Parameters
 
 | Name    | Type      | Description  |
 |---------|-----------|--------------------------------------|
-| id	    | Number	|  <p>ID of the story</p>|
+| id	    | Number	|  ID of the story|
 
 
 ### Examples
