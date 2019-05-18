@@ -29,14 +29,22 @@ function generateToken(user) {
 function restricted(req, res, next) {
   const token = req.headers.authorization; // paste token on authorization header prop from register/login success
 
-  jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
-    if (err) {
-      res
-        .status(401)
-        .json({ error: "Bad token. Make sure token is on header." });
-    } else {
-      req.decodedToken = decodedToken;
-      next();
-    }
-  });
+  if (token) {
+    jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
+      if (err) {
+        res
+          .status(401)
+          .json({ error: "Bad token. Make sure token is on header." });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  } else {
+    return res
+      .status(401)
+      .json({
+        error: "No token provided. Token must be on authorization header."
+      });
+  }
 }

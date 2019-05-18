@@ -5,6 +5,7 @@ const usersRouter = require("express").Router();
 const users = require("./users-model.js");
 
 // Middleware?
+const { restricted } = require("../auth/authenticators.js");
 
 // ========  For endpoints beginning with /api/users
 
@@ -23,7 +24,7 @@ usersRouter.get("/", (req, res) => {
 });
 
 // Find User + Stories by ID
-usersRouter.get("/:id", (req, res) => {
+usersRouter.get("/:id", restricted, (req, res) => {
   const userId = req.params.id;
   users
     .findByUserId(userId)
