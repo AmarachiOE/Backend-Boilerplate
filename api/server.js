@@ -20,7 +20,7 @@ server.use("/api/users", usersRouter);
 server.use("/api/stories", storiesRouter);
 
 server.get("/", (req, res) => {
-    res.send("Yay! Server is Running! Welcome to Build Week.");
+    res.send("Yay! Server is Up and Running! Welcome to Build Week.");
 })
 
 module.exports = server;
