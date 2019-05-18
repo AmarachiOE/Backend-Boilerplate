@@ -15,9 +15,9 @@ server.use(express.json());
 server.use(cors());
 
 // Endpoints
-server.use("/api/auth", authRouter);
-server.use("/api/users", usersRouter);
-server.use("/api/stories", storiesRouter);
+//server.use("/api/auth", authRouter);
+server.use("/users", usersRouter);
+server.use("/stories", storiesRouter);
 
 server.get("/", (req, res) => {
     res.send("Yay! Server is Up and Running! Welcome to Build Week.");

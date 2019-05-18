@@ -1,7 +1,8 @@
+// DON'T NEED THIS FILE. MOVED LOGIN AND REGISTER ENDPOINTS TO /API/USERS/LOGIN /API/USERS/REGISTER
+
 // Packages
 const authRouter = require("express").Router();
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 // Data
 const users = require("../users/users-model.js");
